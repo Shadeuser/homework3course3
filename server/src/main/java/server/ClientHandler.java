@@ -132,6 +132,7 @@ public class ClientHandler {
         }
     }
 
+
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
