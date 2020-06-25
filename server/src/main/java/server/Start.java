@@ -7,12 +7,14 @@ import java.sql.Statement;
 
 public class Start {
 
-    private static Connection connection;
-    private static Statement statement;
 
     public static void main(String[] args) {
+
         new Server();
+
+
     }
+
 
 
 

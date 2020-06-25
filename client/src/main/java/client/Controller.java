@@ -19,9 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -140,11 +138,13 @@ public class Controller implements Initializable {
                                 });
                             }
 
+
                         } else {
                             textArea.appendText(str + "\n");
+                            writeHistory("client/history_" + nick, str);
                         }
                     }
-                }catch (RuntimeException e){
+                } catch (RuntimeException e) {
                     System.out.println("re");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -226,8 +226,8 @@ public class Controller implements Initializable {
         regStage.show();
     }
 
-    public void tryRegistration(String login, String password ,String nickname){
-        String msg = String.format("/reg %s %s %s", login, password ,nickname);
+    public void tryRegistration(String login, String password, String nickname) {
+        String msg = String.format("/reg %s %s %s", login, password, nickname);
 
         if (socket == null || socket.isClosed()) {
             connect();
@@ -237,6 +237,30 @@ public class Controller implements Initializable {
             out.writeUTF(msg);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public String readHistory(String inFile) throws IOException {
+        String str = "";
+        try (InputStreamReader inStream = new InputStreamReader(new FileInputStream(inFile))) {
+            int x;
+            while ((x = inStream.read()) != -1) {
+                str += (char) x;
+            }
+        }
+        return str;
+
+    }
+
+    public static void writeHistory(String inFile, String inText) throws IOException {
+        try (OutputStreamWriter outWriter = new OutputStreamWriter(new FileOutputStream(inFile, true))) {
+            int i = 0;
+            inText += "\n";
+            while (i <= inText.length() - 1) {
+                outWriter.append(inText.charAt(i));
+                i++;
+            }
         }
 
     }

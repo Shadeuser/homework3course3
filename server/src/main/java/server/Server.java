@@ -93,6 +93,7 @@ public class Server {
         return false;
     }
 
+
     private void broadcastClientList() {
         StringBuilder sb = new StringBuilder("/clientlist ");
 

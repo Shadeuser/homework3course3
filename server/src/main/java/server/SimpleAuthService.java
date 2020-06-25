@@ -73,6 +73,7 @@ public class SimpleAuthService implements AuthService {
         statement = connection.createStatement();
     }
 
+
     private void disconnectBd() {
         try {
             statement.close();
