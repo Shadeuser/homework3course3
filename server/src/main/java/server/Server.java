@@ -42,6 +42,7 @@ public class Server {
                 new ClientHandler(this, socket);
             }
 
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
