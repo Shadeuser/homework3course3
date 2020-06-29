@@ -1,6 +1,5 @@
 package server;
 
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,6 +7,8 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Server {
@@ -15,7 +16,9 @@ public class Server {
     private AuthService authService;
 
     public Connection connection;
+    public ExecutorService executorService = Executors.newCachedThreadPool();
     private Statement statement;
+
 
     public Server() {
         clients = new Vector<>();
@@ -28,16 +31,21 @@ public class Server {
         try {
             server = new ServerSocket(PORT);
             System.out.println("Сервер запущен!");
-
             while (true) {
                 socket = server.accept();
                 System.out.println("Клиент подключился ");
+
+
+
+
+
                 new ClientHandler(this, socket);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            executorService.shutdown();
             try {
                 server.close();
             } catch (IOException e) {
